@@ -201,7 +201,11 @@
 	}
 	
 	// Story points
-	card.find('.issue-storypoints').text('Storypoint: 1');
+	if (data.storypoints) {
+		card.find('.issue-storypoints').text('Storypoint: ' + data.storypoints);
+	} else {
+		card.find('.issue-storypoints').addClass("hidden");
+	}
 	
     //Description
     if (data.description) {
