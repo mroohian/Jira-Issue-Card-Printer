@@ -12,10 +12,10 @@
     var error = event.error;
     console.log("ERROR: " + error.stack);
     if (global.isProd) {
-      ga('send', 'exception', {
+      /*ga('send', 'exception', {
         'exDescription': error.message,
         'exFatal': true
-      });
+      });*/
     }
   });
 
@@ -25,7 +25,7 @@
   }
 
   // wait untill all scripts loaded
-  appendScript('https://qoomon.github.io/void', function() {
+  appendScript('https://mroohian.github.io/Jira-Issue-Card-Printer/void', function() {
     main();
   });
 
@@ -46,7 +46,7 @@
       console.log("App: " + "YouTrack");
       global.appFunctions = youTrackFunctions;
     } else {
-      alert("Unsupported app.Please create an issue at https://github.com/qoomon/Jira-Issue-Card-Printer");
+      alert("Unsupported app.Please create an issue at https://github.com/mroohian/Jira-Issue-Card-Printer");
       return;
     }
 
@@ -56,7 +56,7 @@
       return;
     }
 
-    // collect selcted issues
+    // collect selected issues
     var issueKeyList = global.appFunctions.getSelectedIssueKeyList();
     if (issueKeyList.length <= 0) {
       alert("Please select at least one issue.");
@@ -76,7 +76,7 @@
       redrawCards();
     });
 
-    jQuery("#rowCount").val(readCookie("card_printer_row_count", 2));
+    jQuery("#rowCount").val(readCookie("card_printer_row_count", 1));
     jQuery("#columnCount").val(readCookie("card_printer_column_count", 1));
     //jQuery("#font-scale-range").val(readCookie("card_printer_font_scale",1));
     jQuery("#single-card-page-checkbox").attr('checked', readCookie("card_printer_single_card_page", 'true') == 'true');
@@ -92,7 +92,7 @@
     });
 
     if (global.isProd) {
-      ga('send', 'pageview');
+      /*ga('send', 'pageview');*/
     }
   }
 
@@ -100,15 +100,15 @@
     addStringFunctions();
     addDateFunctions();
 
-    global.hostOrigin = "https://qoomon.github.io/Jira-Issue-Card-Printer/";
+    global.hostOrigin = "https://mroohian.github.io/Jira-Issue-Card-Printer/";
     if (global.isDev) {
       console.log("DEVELOPMENT");
-      global.hostOrigin = "https://rawgit.com/qoomon/Jira-Issue-Card-Printer/develop/";
+      global.hostOrigin = "https://rawgit.com/mroohian/Jira-Issue-Card-Printer/develop/";
     }
     global.resourceOrigin = global.hostOrigin + "resources/";
 
     if (global.isProd) {
-      initGoogleAnalytics();
+      //initGoogleAnalytics();
     }
   }
 
@@ -118,7 +118,7 @@
     var printDocument = printWindow.document;
 
     if (global.isProd) {
-      ga('send', 'event', 'button', 'click', 'print', jQuery(".card", printDocument).length);
+      /*ga('send', 'event', 'button', 'click', 'print', jQuery(".card", printDocument).length);*/
     }
 
     printWindow.print();
@@ -150,7 +150,7 @@
       global.appFunctions.getCardData(issueKey, function(cardData) {
         //console.log("cardData: " + cardData);
         if (global.isProd) {
-          ga('send', 'event', 'card', 'generate', cardData.type);
+          /*ga('send', 'event', 'card', 'generate', cardData.type);*/
         }
         fillCard(page, cardData);
         page.show();
@@ -193,6 +193,16 @@
     //Summary
     card.find('.issue-summary').text(data.summary);
 
+	// Components
+	if (data.components) {
+		card.find('.issue-components').text(data.components);
+	} else {
+		card.find('.issue-components').addClass("hidden");
+	}
+	
+	// Story points
+	card.find('.issue-storypoints').text('Storypoint: 1');
+	
     //Description
     if (data.description) {
       card.find('.issue-description').html(data.description);
@@ -422,12 +432,12 @@
 
     // info
     result.find("#report-issue").click(function(event) {
-      window.open('https://github.com/qoomon/Jira-Issue-Card-Printer/issues');
+      window.open('https://github.com/mroohian/Jira-Issue-Card-Printer/issues');
       return false;
     });
 
     result.find("#about").click(function(event) {
-      window.open('http://qoomon.blogspot.de/2014/01/jira-issue-card-printer-bookmarklet.html');
+      window.open('https://mroohian.blogspot.de/2014/01/jira-issue-card-printer-bookmarklet.html');
       return false;
     });
 
@@ -660,7 +670,7 @@
     return result;
   }
 
-  // card layout: http://jsfiddle.net/qoomon/ykbLb2pw/
+  // card layout: http://jsfiddle.net/mroohian/ykbLb2pw/
 
   function cardHtml(issueKey) {
     var page = jQuery(document.createElement('div'))
@@ -671,6 +681,8 @@
 <div class="card-content">
     <div class="card-body shadow">
         <div class="issue-summary"></div>
+		<div class="issue-components"></div>
+		<div class="issue-storypoints"></div>
         <div class="issue-description"></div>
     </div>
     <div class="card-header">
@@ -692,7 +704,6 @@
         </div>
     </div>
 </div>
-<div class="author">© qoomon.com Bengt Brodersen</div>
 */
       }));
 
@@ -780,12 +791,25 @@ body {
     //-webkit-line-clamp: 2;
     //-webkit-box-orient: vertical;
 }
+.issue-components {
+	font-size: 0.5rem;
+    font-weight: bold;
+    color: #555;
+	float: left;
+}
+.issue-storypoints {
+	font-size: 0.5rem;
+    font-weight: bold;
+    color: #555;
+	float: right;
+}
 .issue-description {
     margin-top: 0.4rem;
     display: block;
     font-size: 0.5rem;
     line-height: 0.52rem;
     overflow: hidden;
+	clear: both;
 }
 .issue-description p:first-of-type {
     margin-top: 0rem;
@@ -808,7 +832,7 @@ body {
     font-weight: bold;
     text-align: center;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    direction: rtl;
 }
 .issue-icon {
     position: absolute;
@@ -818,34 +842,34 @@ body {
     width: 3.0rem;
     border-radius: 50% !important;
     background-color: LIGHTSEAGREEN !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Objects.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Objects.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 63%;
 }
 .issue-icon[type="story"], .issue-icon[type="user story"]{
     background-color: GOLD !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Bulb.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Bulb.png);
 }
-.issue-icon[type="bug"] {
+.issue-icon[type="bug"], .issue-icon[type="correction"] {
     background-color: CRIMSON !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Bug.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Bug.png);
 }
 .issue-icon[type="epic"] {
     background-color: ROYALBLUE !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Flash.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Flash.png);
 }
 .issue-icon[type="task"] {
     background-color: WHEAT !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Task.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Task.png);
 }
 .issue-icon[type="new feature"] {
     background-color: LIMEGREEN !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Plus.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Plus.png);
 }
 .issue-icon[type="improvement"] {
     background-color: CORNFLOWERBLUE !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Arrow.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Arrow.png);
 }
 .issue-estimate {
     position: absolute;
@@ -866,7 +890,7 @@ body {
     top: 0rem;
     width: 2.2rem;
     height: 2.2rem;
-    background-image: url(https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=blog.qoomon.com);
+    background-image: url(https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=blog.mroohian.com);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -879,7 +903,7 @@ body {
     height: 2.0rem;
     border-radius: 50% !important;
     background-color: LIGHTSKYBLUE !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Attachment.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Attachment.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 70%;
@@ -892,7 +916,7 @@ body {
     height: 2.2rem;
     border-radius: 50% !important;
     background-color: WHITESMOKE;
-    //background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/Person.png);
+    //background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/Person.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -961,7 +985,7 @@ body {
     height: 2.5rem;
     border-radius: 50% !important;
     background-color: ORCHID !important;
-    background-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/icons/AlarmClock.png);
+    background-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/icons/AlarmClock.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 65%;
@@ -994,7 +1018,7 @@ body {
     width: 100%;
     border-style:solid;
     border-bottom-width: 1rem;
-    border-image: url(https://qoomon.github.io/Jira-Issue-Card-Printer/resources/Tearing.png);
+    border-image: url(https://mroohian.github.io/Jira-Issue-Card-Printer/resources/Tearing.png);
     border-image-width: 0 0 0.7rem 0;
     border-image-slice: 56 0 56 1;
     border-image-repeat: round round;
@@ -1014,7 +1038,7 @@ body {
   }
 }
 */
-    }).replace(/https:\/\/qoomon.github.io\/Jira-Issue-Card-Printer\/resources/g, global.resourceOrigin));
+    }).replace(/https:\/\/mroohian.github.io\/Jira-Issue-Card-Printer\/resources/g, global.resourceOrigin));
     return result;
   }
 
@@ -1371,6 +1395,22 @@ body {
           }
         }
 
+		// Reza
+		
+		// Components
+		if (data.fields.components) {
+			issueData.components = '';
+			jQuery.each(data.fields.components, function(key, value) {
+				issueData.components += value.name + ' ';
+			});
+			issueData.components = issueData.components.trim().replace(/ /g,', ');
+		}
+		
+		// Storypoints
+		if (data.fields.storyPoints) {
+			issueData.storyPoints = data.fields.storyPoints;
+		}
+		
         callback(issueData);
       });
     };
