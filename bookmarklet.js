@@ -76,7 +76,7 @@
       redrawCards();
     });
 
-    jQuery("#rowCount").val(readCookie("card_printer_row_count", 2));
+    jQuery("#rowCount").val(readCookie("card_printer_row_count", 1));
     jQuery("#columnCount").val(readCookie("card_printer_column_count", 1));
     //jQuery("#font-scale-range").val(readCookie("card_printer_font_scale",1));
     jQuery("#single-card-page-checkbox").attr('checked', readCookie("card_printer_single_card_page", 'true') == 'true');
@@ -193,6 +193,16 @@
     //Summary
     card.find('.issue-summary').text(data.summary);
 
+	// Components
+	if (data.components) {
+		card.find('.issue-components').text(data.components);
+	} else {
+		card.find('.issue-components').addClass("hidden");
+	}
+	
+	// Story points
+	card.find('.issue-storypoints').text('Storypoint: 1');
+	
     //Description
     if (data.description) {
       card.find('.issue-description').html(data.description);
@@ -671,6 +681,8 @@
 <div class="card-content">
     <div class="card-body shadow">
         <div class="issue-summary"></div>
+		<div class="issue-components"></div>
+		<div class="issue-storypoints"></div>
         <div class="issue-description"></div>
     </div>
     <div class="card-header">
@@ -779,12 +791,25 @@ body {
     //-webkit-line-clamp: 2;
     //-webkit-box-orient: vertical;
 }
+.issue-components {
+	font-size: 0.5rem;
+    font-weight: bold;
+    color: #555;
+	float: left;
+}
+.issue-storypoints {
+	font-size: 0.5rem;
+    font-weight: bold;
+    color: #555;
+	float: right;
+}
 .issue-description {
     margin-top: 0.4rem;
     display: block;
     font-size: 0.5rem;
     line-height: 0.52rem;
     overflow: hidden;
+	clear: both;
 }
 .issue-description p:first-of-type {
     margin-top: 0rem;
@@ -1370,6 +1395,22 @@ body {
           }
         }
 
+		// Reza
+		
+		// Components
+		if (data.fields.components) {
+			issueData.components = '';
+			jQuery.each(data.fields.components, function(key, value) {
+				issueData.components += value.name + ' ';
+			});
+			issueData.components = issueData.components.trim().replace(/ /g,', ');
+		}
+		
+		// Storypoints
+		if (data.fields.storyPoints) {
+			issueData.storyPoints = data.fields.storyPoints;
+		}
+		
         callback(issueData);
       });
     };
