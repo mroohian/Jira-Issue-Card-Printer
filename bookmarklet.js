@@ -201,8 +201,8 @@
 	}
 	
 	// Story points
-	if (data.storypoints) {
-		card.find('.issue-storypoints').text('Storypoint: ' + data.storypoints);
+	if (data.storyPoints) {
+		card.find('.issue-storypoints').text('Storypoint: ' + data.storyPoints);
 	} else {
 		card.find('.issue-storypoints').addClass("hidden");
 	}
@@ -1405,9 +1405,9 @@ body {
 		if (data.fields.components) {
 			issueData.components = '';
 			jQuery.each(data.fields.components, function(key, value) {
-				issueData.components += value.name + ' ';
+				issueData.components += value.name + '\t';
 			});
-			issueData.components = issueData.components.trim().replace(/ /g,', ');
+			issueData.components = issueData.components.trim().replace(/\t/g,', ');
 		}
 		
 		// Storypoints
