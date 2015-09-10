@@ -195,9 +195,9 @@
 
 	// Components
 	if (data.components) {
-		card.find('.issue-components').text(data.components);
+		card.find('.issue-components-box').text(data.components);
 	} else {
-		card.find('.issue-components').addClass("hidden");
+		card.find('.issue-components-box').addClass("hidden");
 	}
 	
 	// Story points
@@ -685,7 +685,6 @@
 <div class="card-content">
     <div class="card-body shadow">
         <div class="issue-summary"></div>
-		<div class="issue-components"></div>
 		<div class="issue-storypoints"></div>
         <div class="issue-description"></div>
     </div>
@@ -700,12 +699,13 @@
     </div>
     <div class="card-footer">
         <div class="issue-qr-code badge"></div>
-        <div class="issue-attachment badge"></div>
+        <div class="issue-components-box badge"></div>
         <div class="issue-assignee badge"></div>
         <div class="issue-epic-box badge">
             <span class="issue-epic-id"></span>
             <span class="issue-epic-name"></span>
         </div>
+        <div class="issue-attachment badge"></div>
     </div>
 </div>
 */
@@ -794,12 +794,6 @@ body {
     display: -webkit-box;
     //-webkit-line-clamp: 2;
     //-webkit-box-orient: vertical;
-}
-.issue-components {
-	font-size: 0.5rem;
-    font-weight: bold;
-    color: #555;
-	float: left;
 }
 .issue-storypoints {
 	font-size: 0.5rem;
@@ -899,9 +893,27 @@ body {
     background-size: cover;
     background-position: center;
 }
+.issue-components-box {
+    position: absolute;
+    left: 2.8rem;
+    top: 0rem;
+    height: 1.5rem;
+    max-width: calc(85% - 8.5rem);;
+    min-width: 5rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    background-color: WHITESMOKE;
+    line-height: 1.3rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    direction: ltr;
+	text-overflow: ellipsis;
+}
 .issue-attachment {
     position: absolute;
-    left:2.8rem;
+    right:2.5rem;
     top: 0rem;
     width: 2.0rem;
     height: 2.0rem;
