@@ -791,6 +791,7 @@ body {
 }
 .issue-summary {
     font-weight: bold;
+    font-size: 2rem;
     display: -webkit-box;
     //-webkit-line-clamp: 2;
     //-webkit-box-orient: vertical;
@@ -818,15 +819,16 @@ body {
 .issue-id {
     position: absolute;
     left: 1rem;
-    top: 1.2rem;
-    height: 1.5rem;
+    top: 0.4rem;
+    height: 2.2rem;
     max-width: calc(85% - 5rem);
     min-width: 5rem;
-    padding-left: 2.1rem;
+    padding-left: 3.1rem;
     padding-right: 0.4rem;
+    padding-top: 0.3rem;
     background-color: WHITESMOKE;
     line-height: 1.3rem;
-    font-size: 0.8rem;
+    font-size: 1.4rem;
     font-weight: bold;
     text-align: center;
     white-space: nowrap;
@@ -871,16 +873,17 @@ body {
 }
 .issue-estimate {
     position: absolute;
-    left: 2.5rem;
-    top: 0.0rem;
-    height: 1.6rem;
-    width: 1.6rem;
+    left: 2.2rem;
+    top: 1.8rem;
+    height: 2.0rem;
+    width: 2.0rem;
     border-radius: 50% !important;
     background-color: WHITESMOKE;
     line-height: 1.4rem;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     font-weight: bold;
     text-align: center;
+    padding-top: 0.1rem;
 }
 .issue-qr-code {
     position: absolute;
