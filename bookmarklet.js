@@ -1412,8 +1412,12 @@ body {
 
         issueData.storyPoints = data.fields.storyPoints;
 
-        if (data.fields.label) {
-          issueData.label = data.fields.label;
+        if (data.fields.labels) {
+          issueData.label = '';
+          jQuery.each(data.fields.labels, function(key, value) {
+            issueData.label += value.name + '\t';
+          });
+          issueData.label = issueData.label.trim().replace(/\t/g,', ');
         }
 
         issueData.epicKey = data.fields.epicLink;
