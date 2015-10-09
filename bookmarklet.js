@@ -244,6 +244,13 @@
       card.find(".issue-estimate").addClass("hidden");
     }
 
+    // Label
+    if (data.label) {
+      card.find(".issue-label").text(data.label);
+    } else {
+      card.find(".issue-label").addClass("hidden");
+    }
+
     //Epic
     if (data.epicKey) {
       card.find(".issue-epic-id").text(data.epicKey);
@@ -696,6 +703,7 @@
             <div class="issue-due-date badge"></div>
             <div class="issue-due-icon badge"></div>
         </div>
+        <div class="issue-label badge"></div>
     </div>
     <div class="card-footer">
         <div class="issue-qr-code badge"></div>
@@ -884,6 +892,13 @@ body {
     font-weight: bold;
     text-align: center;
     padding-top: 0.1rem;
+}
+.issue-label {
+    position: absolute;
+    left: 10.2rem;
+    top: 1.1rem;
+    width: 6.0rem;
+    height: 1.5rem;
 }
 .issue-qr-code {
     position: absolute;
@@ -1396,6 +1411,14 @@ body {
         issueData.hasAttachment = data.fields.attachment.length > 0;
 
         issueData.storyPoints = data.fields.storyPoints;
+
+        if (data.fields.labels) {
+          issueData.label = '';
+          jQuery.each(data.fields.labels, function(key, value) {
+            issueData.label += value.name + '\t';
+          });
+          issueData.label = issueData.label.trim().replace(/\t/g,', ');
+        }
 
         issueData.epicKey = data.fields.epicLink;
         if (issueData.epicKey) {
