@@ -899,6 +899,8 @@ body {
     top: 1.1rem;
     width: 6.0rem;
     height: 1.5rem;
+    text-align: center;
+    font-weight: bold;
 }
 .issue-qr-code {
     position: absolute;
@@ -1415,7 +1417,7 @@ body {
         if (data.fields.labels) {
           issueData.label = '';
           jQuery.each(data.fields.labels, function(key, value) {
-            issueData.label += value.name + '\t';
+            issueData.label += value + '\t';
           });
           issueData.label = issueData.label.trim().replace(/\t/g,', ');
         }
